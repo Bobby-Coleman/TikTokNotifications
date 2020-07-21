@@ -6,36 +6,26 @@ import time
 
 now = int(time.time()) 
 
-# current_time = now.strftime("%H:%M:%S")
-# print("Current Time =", current_time)
-# print(now)
-
 api = TikTokApi()
 
 count = 1
 
-usernames = ['chefcuso', 'charlidemelio', 'holli_coleman']
-counter = 0
-username = usernames[counter]
+usernames = ['chefcuso', 'planetcarlita', 'holli_coleman']
 
-tiktoks = api.byUsername(username, count=count)
+def check_recent_video(user): 
+    tiktoks = api.byUsername(user, count=count)
 
-# holli_coleman
-# for tiktok in tiktoks:
-#     print(tiktok['createTime'])
-recentTikTok = tiktoks[0]
+    recentTikTok = tiktoks[0]
 
-recentTikTokTime = recentTikTok['createTime']
+    recentTikTokTime = recentTikTok['createTime']
 
+    plusThirtyMin = recentTikTokTime + 1800
 
-plusThirtyMin = recentTikTokTime + 1800
+    if plusThirtyMin >= now:
+        notifications.email_alert(f'New Tik Tok from {user}', 'lol', "6266167250@tmomail.net")
+    elif plusThirtyMin < now:
+        print(f'no recent vid for {user}')
 
-if plusThirtyMin >= now:
-    # print('this tik tok was posted less than 30 min ago')
-    notifications.email_alert(f'New Tik Tok from {usernames}', 'lol', "6266167250@tmomail.net")
-elif plusThirtyMin < now:
-    # print('this tik tok was posted more than 30 min ago')
-    # notifications.email_alert('No tik tok', 'sorry', "6266167250@tmomail.net")
-    pass
+for user in usernames:
+    check_recent_video(user)
 
-counter = counter + 1 
